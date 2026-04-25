@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="login-container">
+<div class="login-card">
+<h2>🔐 Cyber Login</h2>
+
+<form method="POST">
+<input name="username" placeholder="Username" required>
+<input type="password" name="password" placeholder="Password" required>
+<button>Login</button>
+</form>
+
+{% if error %}
+<p class="error">{{ error }}</p>
+{% endif %}
+
+</div>
+</div>
+
+</body>
+</html>

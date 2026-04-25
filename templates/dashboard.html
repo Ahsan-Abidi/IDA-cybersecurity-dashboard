@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<h2>🚨 AI Cyber Security Dashboard</h2>
+
+<a href="/logout">Logout</a>
+<a href="/download">Download Report</a>
+
+<!-- 📊 SUMMARY CARDS -->
+<div class="cards">
+  <div>Total Logs: {{summary.total}}</div>
+  <div>Attacks: {{summary.attacks}}</div>
+  <div>Normal: {{summary.normal}}</div>
+</div>
+
+<form method="POST" enctype="multipart/form-data">
+<input type="file" name="logfile">
+<button>Analyze</button>
+</form>
+
+<!-- 🔍 SEARCH -->
+<input type="text" id="searchIP" onkeyup="filterLogs()" placeholder="Search IP...">
+
+<table id="logTable">
+<tr>
+<th>Time</th><th>IP</th><th>User</th><th>Status</th><th>Rule</th><th>AI</th>
+</tr>
+
+{% for row in data %}
+<tr class="{% if row[5]=='ATTACK' %}attack{% endif %}">
+<td>{{row[0]}}</td>
+<td>{{row[1]}}</td>
+<td>{{row[2]}}</td>
+<td>{{row[3]}}</td>
+<td>{{row[4]}}</td>
+<td>{{row[5]}}</td>
+</tr>
+
+<script>
+if ("{{row[5]}}" === "ATTACK"){
+    alert("⚠️ Attack Detected from IP: {{row[1]}}");
+}
+</script>
+
+{% endfor %}
+</table>
+
+{% if show_chart %}
+<img src="{{ url_for('static', filename='chart.png') }}">
+{% endif %}
+
+<h3>🔴 Live Monitoring</h3>
+<table id="liveTable"></table>
+
+<script>
+function loadLiveData(){
+ fetch('/live')
+ .then(res=>res.json())
+ .then(data=>{
+   let table=document.getElementById("liveTable");
+   table.innerHTML="<tr><th>Time</th><th>IP</th><th>User</th><th>Status</th><th>Rule</th></tr>";
+
+   data.forEach(row=>{
+     let tr="<tr>";
+     row.forEach(col=> tr+="<td>"+col+"</td>");
+     tr+="</tr>";
+     table.innerHTML+=tr;
+   });
+ });
+}
+setInterval(loadLiveData,3000);
+loadLiveData();
+
+// 🔍 FILTER
+function filterLogs() {
+  let input = document.getElementById("searchIP").value.toLowerCase();
+  let rows = document.querySelectorAll("#logTable tr");
+
+  rows.forEach((row, index) => {
+    if(index === 0) return;
+    row.style.display = row.innerText.toLowerCase().includes(input) ? "" : "none";
+  });
+}
+</script>
+
+</body>
+</html>
