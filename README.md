@@ -46,8 +46,11 @@ python app.py
 ```
 
 ## 📸 Screenshots
+<img width="1064" height="535" alt="Login" src="https://github.com/user-attachments/assets/2b461004-8f3d-48d8-880f-e0568bc1dd0c" />
+Login Page
+<img width="1802" height="953" alt="Dashboard" src="https://github.com/user-attachments/assets/f7e6afc6-9ccd-4155-8d98-d6bc1d6fda51" />
+Dashboard page
 
-(Add dashboard screenshot here)
 
 ## 🚀 Future Improvements
 
@@ -56,5 +59,4 @@ python app.py
 * Cloud deployment
 
 ## 👨‍💻 Author
-
-Your Name
+Syed Mohammed Ahsan Abidi
